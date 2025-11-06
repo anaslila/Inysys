@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#008080">
+    <meta name="description" content="Invsys Manager - Complete inventory, customer, sales, and invoice management system">
+    <title>Invsys Manager v1.02 - AL Software</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/q7NhcdLs/Inysys-removebg-preview.png">
+    <link rel="apple-touch-icon" href="https://i.postimg.cc/4drzH3RD/Inysys.png">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-container">
+            <img src="https://s3.ezgif.com/tmp/ezgif-39005c99a5e741.gif" alt="Loading" class="loading-icon">
+            <p class="loading-text">Loading Invsys Manager v1.02...</p>
+        </div>
+    </div>
+
+    <!-- Install Prompt -->
+    <div id="installPrompt" class="install-prompt" style="display: none;">
+        <div class="install-prompt-content">
+            <div class="window-header">
+                <span class="window-title">Install Invsys Manager</span>
+                <button class="window-close-btn" id="closeInstallPrompt">×</button>
+            </div>
+            <div class="install-prompt-body">
+                <p id="installMessage"></p>
+                <div class="install-buttons">
+                    <button class="btn-primary" id="installBtn" tabindex="1">Install</button>
+                    <button class="btn-secondary" id="dismissBtn" tabindex="2">Not Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="mainApp" style="display: none;">
+        <!-- Taskbar -->
+        <div class="taskbar">
+            <div class="taskbar-start">
+                <button class="start-button" title="Press Ctrl to open Start Menu (Dashboard only)">
+                    <span class="start-icon">▣</span>
+                    <span>Start</span>
+                </button>
+            </div>
+            <div class="taskbar-windows" id="taskbarWindows"></div>
+            <div class="taskbar-tray">
+                <div class="tray-datetime" id="trayDateTime" title="Click for more details">
+                    <div class="tray-time" id="trayTime"></div>
+                    <div class="tray-date" id="trayDate"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Date/Time Popup -->
+        <div class="datetime-popup" id="datetimePopup" style="display: none;">
+            <div class="popup-header">Date & Time Details</div>
+            <div class="popup-body">
+                <div class="datetime-full" id="datetimeFull"></div>
+                <div class="calendar-mini" id="calendarMini"></div>
+            </div>
+        </div>
+
+        <!-- Start Menu -->
+        <div class="start-menu" id="startMenu" style="display: none;">
+            <div class="start-menu-header">
+                <img src="https://i.postimg.cc/q7NhcdLs/Inysys-removebg-preview.png" alt="Logo" class="start-logo">
+                <div class="start-info">
+                    <div class="start-title">Invsys Manager</div>
+                    <div class="start-version">Version 1.02</div>
+                </div>
+            </div>
+            <div class="start-menu-items">
+                <div class="menu-item" data-tab="dashboard" data-key="d" tabindex="0">
+                    <span class="menu-icon">⌂</span>
+                    <span><span class="menu-underline">D</span>ashboard</span>
+                </div>
+                <div class="menu-item" data-tab="invoice" data-key="i" tabindex="0">
+                    <span class="menu-icon">▤</span>
+                    <span><span class="menu-underline">I</span>nvoice</span>
+                </div>
+                <div class="menu-item" data-tab="inventory" data-key="n" tabindex="0">
+                    <span class="menu-icon">▦</span>
+                    <span>I<span class="menu-underline">n</span>ventory</span>
+                </div>
+                <div class="menu-item" data-tab="customer" data-key="c" tabindex="0">
+                    <span class="menu-icon">☺</span>
+                    <span><span class="menu-underline">C</span>ustomer</span>
+                </div>
+                <div class="menu-item" data-tab="sales" data-key="e" tabindex="0">
+                    <span class="menu-icon">▬</span>
+                    <span>Sal<span class="menu-underline">e</span>s</span>
+                </div>
+                <div class="menu-item" data-tab="bills" data-key="b" tabindex="0">
+                    <span class="menu-icon">▧</span>
+                    <span><span class="menu-underline">B</span>ills History</span>
+                </div>
+                <div class="menu-item" data-tab="calculator" data-key="l" tabindex="0">
+                    <span class="menu-icon">⌘</span>
+                    <span>Ca<span class="menu-underline">l</span>culator</span>
+                </div>
+                <div class="menu-item" data-tab="settings" data-key="s" tabindex="0">
+                    <span class="menu-icon">⚙</span>
+                    <span><span class="menu-underline">S</span>ettings</span>
+                </div>
+                <div class="menu-item" data-tab="profile" data-key="p" tabindex="0">
+                    <span class="menu-icon">♦</span>
+                    <span><span class="menu-underline">P</span>rofile</span>
+                </div>
+                <div class="menu-item" data-tab="about" data-key="a" tabindex="0">
+                    <span class="menu-icon">ℹ</span>
+                    <span><span class="menu-underline">A</span>bout</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Desktop -->
+        <div class="desktop" id="desktop">
+            <!-- Dashboard Window (Always Open, No Close Button) -->
+            <div class="window active dashboard-window" id="window-dashboard" data-window="dashboard">
+                <div class="window-header">
+                    <span class="window-title">
+                        <img src="https://i.postimg.cc/q7NhcdLs/Inysys-removebg-preview.png" alt="" class="window-icon">
+                        Dashboard
+                    </span>
+                </div>
+                <div class="window-body">
+                    <div class="dashboard-grid">
+                        <div class="dashboard-card" data-action="invoice" tabindex="0">
+                            <div class="card-icon">▤</div>
+                            <div class="card-title">Create Invoice</div>
+                            <div class="card-desc">Generate new invoices</div>
+                        </div>
+                        <div class="dashboard-card" data-action="inventory" tabindex="0">
+                            <div class="card-icon">▦</div>
+                            <div class="card-title">Inventory</div>
+                            <div class="card-desc">Manage products</div>
+                        </div>
+                        <div class="dashboard-card" data-action="customer" tabindex="0">
+                            <div class="card-icon">☺</div>
+                            <div class="card-title">Customers</div>
+                            <div class="card-desc">Customer database</div>
+                        </div>
+                        <div class="dashboard-card" data-action="sales" tabindex="0">
+                            <div class="card-icon">▬</div>
+                            <div class="card-title">Sales Report</div>
+                            <div class="card-desc">View sales analytics</div>
+                        </div>
+                        <div class="dashboard-card" data-action="bills" tabindex="0">
+                            <div class="card-icon">▧</div>
+                            <div class="card-title">Bills History</div>
+                            <div class="card-desc">Past invoices</div>
+                        </div>
+                        <div class="dashboard-card" data-action="calculator" tabindex="0">
+                            <div class="card-icon">⌘</div>
+                            <div class="card-title">Calculator</div>
+                            <div class="card-desc">Quick calculations</div>
+                        </div>
+                        <div class="dashboard-card" data-action="settings" tabindex="0">
+                            <div class="card-icon">⚙</div>
+                            <div class="card-title">Settings</div>
+                            <div class="card-desc">App configuration</div>
+                        </div>
+                        <div class="dashboard-card" data-action="profile" tabindex="0">
+                            <div class="card-icon">♦</div>
+                            <div class="card-title">Profile</div>
+                            <div class="card-desc">Company details</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Invoice Window -->
+            <div class="window" id="window-invoice" data-window="invoice" style="display: none;">
+                <div class="window-header">
+                    <span class="window-title">
+                        <span class="window-icon">▤</span>
+                        Invoice Generator
+                    </span>
+                    <div class="window-controls">
+                        <button class="window-btn minimize-btn" title="Minimize">_</button>
+                        <button class="window-btn maximize-btn" title="Maximize">□</button>
+                        <button class="window-btn close-btn" title="Close (Esc)">×</button>
+                    </div>
+                </div>
+                <div class="window-body">
+                    <div class="toolbar">
+                        <button class="toolbar-btn" id="newInvoiceBtn" tabindex="0">New Invoice</button>
+                        <button class="toolbar-btn" id="saveInvoiceBtn" tabindex="0">Save (Enter)</button>
+                        <button class="toolbar-btn" id="printInvoiceBtn" tabindex="0">Print</button>
+                        <button class="toolbar-btn" id="clearInvoiceBtn" tabindex="0">Clear</button>
+                    </div>
+                    <div class="invoice-container">
+                        <div class="invoice-form">
+                            <div class="form-section">
+                                <h3 class="section-title">Invoice Details</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Invoice No:</label>
+                                        <input type="text" id="invoiceNo" class="form-input" readonly tabindex="-1">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Date:</label>
+                                        <input type="date" id="invoiceDate" class="form-input" tabindex="-1">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Due Date:</label>
+                                        <input type="date" id="invoiceDueDate" class="form-input" tabindex="-1">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-section">
+                                <h3 class="section-title">Customer Details</h3>
+                                <div class="form-row">
+                                    <div class="form-group full-width">
+                                        <label>Search Customer (Start typing or phone number):</label>
+                                        <div class="searchable-dropdown" id="customerDropdown">
+                                            <input type="text" id="customerSearch" class="form-input dropdown-search" placeholder="Type customer name, phone, email or ID..." autocomplete="off" tabindex="0" autofocus>
+                                            <div class="dropdown-results" id="customerResults" style="display: none;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="selectedCustomerInfo" class="customer-info"></div>
+                            </div>
+
+                            <div class="form-section">
+                                <h3 class="section-title">Items</h3>
+                                <div class="form-row">
+                                    <div class="form-group full-width">
+                                        <label>Search Product:</label>
+                                        <div class="searchable-dropdown" id="productDropdown">
+                                            <input type="text" id="productSearch" class="form-input dropdown-search" placeholder="Type product name, code or category..." autocomplete="off" tabindex="0">
+                                            <div class="dropdown-results" id="productResults" style="display: none;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Quantity:</label>
+                                        <input type="number" id="itemQuantity" class="form-input" min="1" value="1" tabindex="0">
+                                    </div>
+                                </div>
+                                <div class="table-container">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Item</th>
+                                                <th>Quantity</th>
+                                                <th>Price</th>
+                                                <th>Tax</th>
+                                                <th>Total</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="invoiceItems"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="form-section">
+                                <div class="invoice-totals">
+                                    <div class="total-row">
+                                        <span>Subtotal:</span>
+                                        <span id="invoiceSubtotal">₹0.00</span>
+                                    </div>
+                                    <div class="total-row">
+                                        <span>Tax:</span>
+                                        <span id="invoiceTax">₹0.00</span>
+                                    </div>
+                                    <div class="total-row grand-total">
+                                        <span>Grand Total:</span>
+                                        <span id="invoiceGrandTotal">₹0.00</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-section">
+                                <div class="form-group full-width">
+                                    <label>Notes:</label>
+                                    <textarea id="invoiceNotes" class="form-textarea" rows="3" placeholder="Additional notes..." tabindex="0"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="invoice-preview" id="invoicePreview">
+                            <div class="preview-placeholder">Invoice preview will appear here</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Customer Modal -->
+            <div class="modal-window" id="addCustomerModal" style="display: none;">
+                <div class="modal-content">
+                    <div class="window-header">
+                        <span class="window-title">Add New Customer</span>
+                        <button class="window-btn close-btn" onclick="closeAddCustomerModal()">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Customer Name:</label>
+                            <input type="text" id="newCustomerName" class="form-input" tabindex="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Email:</label>
+                            <input type="email" id="newCustomerEmail" class="form-input" tabindex="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone:</label>
+                            <input type="tel" id="newCustomerPhone" class="form-input" tabindex="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Address:</label>
+                            <textarea id="newCustomerAddress" class="form-textarea" rows="3" tabindex="0"></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn-primary" onclick="saveNewCustomer()" tabindex="0">Save (Enter)</button>
+                            <button class="btn-secondary" onclick="closeAddCustomerModal()" tabindex="0">Cancel (Esc)</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Product Modal -->
+            <div class="modal-window" id="addProductModal" style="display: none;">
+                <div class="modal-content">
+                    <div class="window-header">
+                        <span class="window-title">Add New Product</span>
+                        <button class="window-btn close-btn" onclick="closeAddProductModal()">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Product Code:</label>
+                            <input type="text" id="newProductCode" class="form-input" tabindex="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Product Name:</label>
+                            <input type="text" id="newProductName" class="form-input" tabindex="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Category:</label>
+                            <input type="text" id="newProductCategory" class="form-input" tabindex="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Price:</label>
+                            <input type="number" id="newProductPrice" class="form-input" step="0.01" tabindex="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Stock:</label>
+                            <input type="number" id="newProductStock" class="form-input" tabindex="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Tax (%):</label>
+                            <input type="number" id="newProductTax" class="form-input" value="18" step="0.01" tabindex="0">
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn-primary" onclick="saveNewProduct()" tabindex="0">Save (Enter)</button>
+                            <button class="btn-secondary" onclick="closeAddProductModal()" tabindex="0">Cancel (Esc)</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stock Refill Modal -->
+            <div class="modal-window" id="refillStockModal" style="display: none;">
+                <div class="modal-content">
+                    <div class="window-header">
+                        <span class="window-title">Refill Stock</span>
+                        <button class="window-btn close-btn" onclick="closeRefillStockModal()">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="refill-info" id="refillProductInfo"></div>
+                        <div class="form-group">
+                            <label>Add Quantity:</label>
+                            <input type="number" id="refillQuantity" class="form-input" min="1" value="1" tabindex="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Notes:</label>
+                            <textarea id="refillNotes" class="form-textarea" rows="2" placeholder="Optional notes about this refill..." tabindex="0"></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn-primary" onclick="saveStockRefill()" tabindex="0">Refill (Enter)</button>
+                            <button class="btn-secondary" onclick="closeRefillStockModal()" tabindex="0">Cancel (Esc)</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Invoice Item Modal -->
+            <div class="modal-window" id="editInvoiceItemModal" style="display: none;">
+                <div class="modal-content">
+                    <div class="window-header">
+                        <span class="window-title">Edit Invoice Item</span>
+                        <button class="window-btn close-btn" onclick="closeEditItemModal()">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Product:</label>
+                            <input type="text" id="editItemName" class="form-input" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Quantity:</label>
+                            <input type="number" id="editItemQuantity" class="form-input" min="1" tabindex="0">
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn-primary" onclick="saveEditedItem()" tabindex="0">Save (Enter)</button>
+                            <button class="btn-danger" onclick="deleteEditedItem()" tabindex="0">Delete</button>
+                            <button class="btn-secondary" onclick="closeEditItemModal()" tabindex="0">Cancel (Esc)</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inventory Window -->
+            <div class="window" id="window-inventory" data-window="inventory" style="display: none;">
+                <div class="window-header">
+                    <span class="window-title">
+                        <span class="window-icon">▦</span>
+                        Inventory Management
+                    </span>
+                    <div class="window-controls">
+                        <button class="window-btn minimize-btn">_</button>
+                        <button class="window-btn maximize-btn">□</button>
+                        <button class="window-btn close-btn">×</button>
+                    </div>
+                </div>
+                <div class="window-body">
+                    <div class="toolbar">
+                        <button class="toolbar-btn" id="addProductBtn" tabindex="0">Add Product</button>
+                        <button class="toolbar-btn" id="exportInventoryBtn" tabindex="0">Export</button>
+                        <button class="toolbar-btn" id="importInventoryBtn" tabindex="0">Import</button>
+                        <input type="file" id="importInventoryFile" accept=".csv,.json" style="display: none;">
+                        <input type="text" id="inventorySearch" class="toolbar-search" placeholder="Search inventory..." tabindex="0">
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Product Code</th>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Stock</th>
+                                    <th>Tax %</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventoryTable"></tbody>
+                        </table>
+                    </div>
+                    <div class="pagination">
+                        <button class="pagination-btn" id="invPrevPage" tabindex="0">Previous</button>
+                        <span id="invPageInfo">Page 1 of 1</span>
+                        <button class="pagination-btn" id="invNextPage" tabindex="0">Next</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customer Window -->
+            <div class="window" id="window-customer" data-window="customer" style="display: none;">
+                <div class="window-header">
+                    <span class="window-title">
+                        <span class="window-icon">☺</span>
+                        Customer Management
+                    </span>
+                    <div class="window-controls">
+                        <button class="window-btn minimize-btn">_</button>
+                        <button class="window-btn maximize-btn">□</button>
+                        <button class="window-btn close-btn">×</button>
+                    </div>
+                </div>
+                <div class="window-body">
+                    <div class="toolbar">
+                        <button class="toolbar-btn" id="addCustomerBtn" tabindex="0">Add Customer</button>
+                        <button class="toolbar-btn" id="deleteCustomerBtn" tabindex="0">Delete</button>
+                        <button class="toolbar-btn" id="exportCustomerBtn" tabindex="0">Export</button>
+                        <button class="toolbar-btn" id="importCustomerBtn" tabindex="0">Import</button>
+                        <input type="file" id="importCustomerFile" accept=".csv,.json" style="display: none;">
+                        <input type="text" id="customerSearchField" class="toolbar-search" placeholder="Search customers..." tabindex="0">
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" id="selectAllCustomers"></th>
+                                    <th>Customer ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Total Orders</th>
+                                </tr>
+                            </thead>
+                            <tbody id="customerTable"></tbody>
+                        </table>
+                    </div>
+                    <div class="pagination">
+                        <button class="pagination-btn" id="custPrevPage" tabindex="0">Previous</button>
+                        <span id="custPageInfo">Page 1 of 1</span>
+                        <button class="pagination-btn" id="custNextPage" tabindex="0">Next</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sales Window -->
+            <div class="window" id="window-sales" data-window="sales" style="display: none;">
+                <div class="window-header">
+                    <span class="window-title">
+                        <span class="window-icon">▬</span>
+                        Sales Report
+                    </span>
+                    <div class="window-controls">
+                        <button class="window-btn minimize-btn">_</button>
+                        <button class="window-btn maximize-btn">□</button>
+                        <button class="window-btn close-btn">×</button>
+                    </div>
+                </div>
+                <div class="window-body">
+                    <div class="toolbar">
+                        <select id="salesPeriod" class="form-select" tabindex="0">
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month" selected>This Month</option>
+                            <option value="year">This Year</option>
+                            <option value="custom">Custom Range</option>
+                        </select>
+                        <input type="date" id="salesFromDate" class="form-input" style="display: none;" tabindex="0">
+                        <input type="date" id="salesToDate" class="form-input" style="display: none;" tabindex="0">
+                        <button class="toolbar-btn" id="generateSalesReport" tabindex="0">Generate Report</button>
+                        <button class="toolbar-btn" id="exportSalesBtn" tabindex="0">Export</button>
+                    </div>
+                    <div class="sales-summary">
+                        <div class="summary-card">
+                            <div class="summary-label">Total Sales</div>
+                            <div class="summary-value" id="totalSalesValue">₹0.00</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-label">Total Invoices</div>
+                            <div class="summary-value" id="totalInvoicesValue">0</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-label">Average Invoice</div>
+                            <div class="summary-value" id="avgInvoiceValue">₹0.00</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-label">Tax Collected</div>
+                            <div class="summary-value" id="taxCollectedValue">₹0.00</div>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Invoice No</th>
+                                    <th>Customer</th>
+                                    <th>Items</th>
+                                    <th>Subtotal</th>
+                                    <th>Tax</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="salesTable"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bills History Window -->
+            <div class="window" id="window-bills" data-window="bills" style="display: none;">
+                <div class="window-header">
+                    <span class="window-title">
+                        <span class="window-icon">▧</span>
+                        Bills History
+                    </span>
+                    <div class="window-controls">
+                        <button class="window-btn minimize-btn">_</button>
+                        <button class="window-btn maximize-btn">□</button>
+                        <button class="window-btn close-btn">×</button>
+                    </div>
+                </div>
+                <div class="window-body">
+                    <div class="toolbar">
+                        <button class="toolbar-btn" id="viewBillBtn" tabindex="0">View</button>
+                        <button class="toolbar-btn" id="printBillBtn" tabindex="0">Print</button>
+                        <button class="toolbar-btn" id="deleteBillBtn" tabindex="0">Delete</button>
+                        <button class="toolbar-btn" id="exportBillsBtn" tabindex="0">Export</button>
+                        <input type="text" id="billsSearch" class="toolbar-search" placeholder="Search bills..." tabindex="0">
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" id="selectAllBills"></th>
+                                    <th>Invoice No</th>
+                                    <th>Date</th>
+                                    <th>Customer</th>
+                                    <th>Total Amount</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="billsTable"></tbody>
+                        </table>
+                    </div>
+                    <div class="pagination">
+                        <button class="pagination-btn" id="billsPrevPage" tabindex="0">Previous</button>
+                        <span id="billsPageInfo">Page 1 of 1</span>
+                        <button class="pagination-btn" id="billsNextPage" tabindex="0">Next</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calculator Window -->
+            <div class="window" id="window-calculator" data-window="calculator" style="display: none;">
+                <div class="window-header">
+                    <span class="window-title">
+                        <span class="window-icon">⌘</span>
+                        Calculator
+                    </span>
+                    <div class="window-controls">
+                        <button class="window-btn minimize-btn">_</button>
+                        <button class="window-btn maximize-btn">□</button>
+                        <button class="window-btn close-btn">×</button>
+                    </div>
+                </div>
+                <div class="window-body">
+                    <div class="calculator-container">
+                        <div class="calculator">
+                            <div class="calculator-display">
+                                <div class="calc-expression" id="calcExpression"></div>
+                                <input type="text" class="calc-result" id="calcResult" value="0">
+                            </div>
+                            <div class="calculator-buttons">
+                                <button class="calc-btn calc-btn-operator" data-value="C">C</button>
+                                <button class="calc-btn calc-btn-operator" data-value="CE">CE</button>
+                                <button class="calc-btn calc-btn-operator" data-value="%">%</button>
+                                <button class="calc-btn calc-btn-operator" data-value="/">÷</button>
+                                
+                                <button class="calc-btn" data-value="7" data-numpad="7">7</button>
+                                <button class="calc-btn" data-value="8" data-numpad="8">8</button>
+                                <button class="calc-btn" data-value="9" data-numpad="9">9</button>
+                                <button class="calc-btn calc-btn-operator" data-value="*" data-numpad="*">×</button>
+                                
+                                <button class="calc-btn" data-value="4" data-numpad="4">4</button>
+                                <button class="calc-btn" data-value="5" data-numpad="5">5</button>
+                                <button class="calc-btn" data-value="6" data-numpad="6">6</button>
+                                <button class="calc-btn calc-btn-operator" data-value="-" data-numpad="-">−</button>
+                                
+                                <button class="calc-btn" data-value="1" data-numpad="1">1</button>
+                                <button class="calc-btn" data-value="2" data-numpad="2">2</button>
+                                <button class="calc-btn" data-value="3" data-numpad="3">3</button>
+                                <button class="calc-btn calc-btn-operator" data-value="+" data-numpad="+">+</button>
+                                
+                                <button class="calc-btn calc-btn-zero" data-value="0" data-numpad="0">0</button>
+                                <button class="calc-btn" data-value="." data-numpad=".">.</button>
+                                <button class="calc-btn calc-btn-equals" data-value="=" data-numpad="Enter">=</button>
+                            </div>
+                        </div>
+                        <div class="calculator-history">
+                            <h4>History (Last 50)</h4>
+                            <div class="history-list" id="calculatorHistory"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Window -->
+            <div class="window" id="window-settings" data-window="settings" style="display: none;">
+                <div class="window-header">
+                    <span class="window-title">
+                        <span class="window-icon">⚙</span>
+                        Settings
+                    </span>
+                    <div class="window-controls">
+                        <button class="window-btn minimize-btn">_</button>
+                        <button class="window-btn maximize-btn">□</button>
+                        <button class="window-btn close-btn">×</button>
+                    </div>
+                </div>
+                <div class="window-body">
+                    <div class="settings-container">
+                        <div class="settings-section">
+                            <h3 class="section-title">General Settings</h3>
+                            <div class="form-group">
+                                <label>Items Per Page:</label>
+                                <input type="number" id="itemsPerPage" class="form-input" value="100" min="10" max="500" tabindex="0">
+                                <small>Default: 100 (Range: 10-500)</small>
+                            </div>
+                            <div class="form-group">
+                                <label>Currency Symbol:</label>
+                                <input type="text" id="currencySymbol" class="form-input" value="₹" tabindex="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Tax Rate (%):</label>
+                                <input type="number" id="defaultTaxRate" class="form-input" value="18" step="0.01" tabindex="0">
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="ignoreStock" tabindex="0">
+                                    Ignore Stock Warnings (Allow negative stock)
+                                </label>
+                                <small>If unchecked, you'll be prompted to refill stock when low/out</small>
+                            </div>
+                        </div>
+
+                        <div class="settings-section">
+                            <h3 class="section-title">Invoice Settings</h3>
+                            <div class="form-group">
+                                <label>Invoice Prefix:</label>
+                                <input type="text" id="invoicePrefix" class="form-input" value="INV" placeholder="INV" tabindex="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Starting Invoice Number:</label>
+                                <input type="number" id="startingInvoiceNo" class="form-input" value="1001" min="1" tabindex="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Payment Terms (Days):</label>
+                                <input type="number" id="paymentTerms" class="form-input" value="30" min="0" tabindex="0">
+                            </div>
+                        </div>
+
+                        <div class="settings-section">
+                            <h3 class="section-title">Data Management</h3>
+                            <div class="form-group">
+                                <button class="btn-secondary" id="exportDataBtn" tabindex="0">Export All Data</button>
+                                <button class="btn-secondary" id="importDataBtn" tabindex="0">Import Data</button>
+                                <input type="file" id="importDataFile" accept=".json" style="display: none;">
+                            </div>
+                            <div class="form-group">
+                                <button class="btn-danger" id="clearAllDataBtn" tabindex="0">Clear All Data</button>
+                                <small>Warning: This will delete all data permanently!</small>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button class="btn-primary" id="saveSettingsBtn" tabindex="0">Save Settings (Enter)</button>
+                            <button class="btn-secondary" id="resetSettingsBtn" tabindex="0">Reset to Default</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Window -->
+            <div class="window" id="window-profile" data-window="profile" style="display: none;">
+                <div class="window-header">
+                    <span class="window-title">
+                        <span class="window-icon">♦</span>
+                        Profile & Company Information
+                    </span>
+                    <div class="window-controls">
+                        <button class="window-btn minimize-btn">_</button>
+                        <button class="window-btn maximize-btn">□</button>
+                        <button class="window-btn close-btn">×</button>
+                    </div>
+                </div>
+                <div class="window-body">
+                    <div class="profile-container">
+                        <div class="form-section">
+                            <h3 class="section-title">Company Information</h3>
+                            <div class="form-group">
+                                <label>Company Name:</label>
+                                <input type="text" id="companyName" class="form-input" placeholder="Enter company name" tabindex="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Company Logo URL:</label>
+                                <input type="text" id="companyLogo" class="form-input" placeholder="Enter logo URL" tabindex="0">
+                                <small>Or upload: <input type="file" id="companyLogoFile" accept="image/*" tabindex="0"></small>
+                            </div>
+                            <div class="form-group">
+                                <label>Company Address:</label>
+                                <textarea id="companyAddress" class="form-textarea" rows="3" placeholder="Enter company address" tabindex="0"></textarea>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Phone:</label>
+                                    <input type="tel" id="companyPhone" class="form-input" placeholder="+91" tabindex="0">
+                                </div>
+                                <div class="form-group">
+                                    <label>Email:</label>
+                                    <input type="email" id="companyEmail" class="form-input" placeholder="company@example.com" tabindex="0">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>GST Number:</label>
+                                    <input type="text" id="companyGST" class="form-input" placeholder="GST Number" tabindex="0">
+                                </div>
+                                <div class="form-group">
+                                    <label>PAN Number:</label>
+                                    <input type="text" id="companyPAN" class="form-input" placeholder="PAN Number" tabindex="0">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Website:</label>
+                                <input type="url" id="companyWebsite" class="form-input" placeholder="https://example.com" tabindex="0">
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3 class="section-title">Owner/Manager Information</h3>
+                            <div class="form-group">
+                                <label>Full Name:</label>
+                                <input type="text" id="ownerName" class="form-input" placeholder="Enter your name" tabindex="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Designation:</label>
+                                <input type="text" id="ownerDesignation" class="form-input" placeholder="e.g., Manager, Owner" tabindex="0">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Phone:</label>
+                                    <input type="tel" id="ownerPhone" class="form-input" placeholder="+91" tabindex="0">
+                                </div>
+                                <div class="form-group">
+                                    <label>Email:</label>
+                                    <input type="email" id="ownerEmail" class="form-input" placeholder="your@email.com" tabindex="0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3 class="section-title">Bank Details</h3>
+                            <div class="form-group">
+                                <label>Bank Name:</label>
+                                <input type="text" id="bankName" class="form-input" placeholder="Enter bank name" tabindex="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Account Number:</label>
+                                <input type="text" id="accountNumber" class="form-input" placeholder="Enter account number" tabindex="0">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>IFSC Code:</label>
+                                    <input type="text" id="ifscCode" class="form-input" placeholder="IFSC Code" tabindex="0">
+                                </div>
+                                <div class="form-group">
+                                    <label>Branch:</label>
+                                    <input type="text" id="bankBranch" class="form-input" placeholder="Branch name" tabindex="0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button class="btn-primary" id="saveProfileBtn" tabindex="0">Save Profile (Enter)</button>
+                            <button class="btn-secondary" id="clearProfileBtn" tabindex="0">Clear</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- About Window -->
+            <div class="window" id="window-about" data-window="about" style="display: none;">
+                <div class="window-header">
+                    <span class="window-title">
+                        <span class="window-icon">ℹ</span>
+                        About Invsys Manager
+                    </span>
+                    <div class="window-controls">
+                        <button class="window-btn minimize-btn">_</button>
+                        <button class="window-btn maximize-btn">□</button>
+                        <button class="window-btn close-btn">×</button>
+                    </div>
+                </div>
+                <div class="window-body">
+                    <div class="about-container">
+                        <div class="about-logo">
+                            <img src="https://i.postimg.cc/4drzH3RD/Inysys.png" alt="Invsys Manager Logo">
+                        </div>
+                        <h2>Invsys Manager</h2>
+                        <p class="about-version">Version 1.02</p>
+                        <p class="about-description">
+                            Complete inventory, customer, sales, and invoice management system with a classic Windows 95 interface.
+                            Fully keyboard accessible with advanced search capabilities and stock management.
+                        </p>
+                        <div class="about-features">
+                            <h3>New in v1.02:</h3>
+                            <ul>
+                                <li>Editable calculator with cursor support</li>
+                                <li>Stock refill tracking and history</li>
+                                <li>Edit invoice items after adding</li>
+                                <li>Stock warning system with ignore option</li>
+                                <li>Improved date/time display with popup</li>
+                                <li>Better window positioning</li>
+                                <li>Enhanced dropdown with auto-select</li>
+                                <li>Ctrl only works on dashboard</li>
+                            </ul>
+                        </div>
+                        <div class="about-credits">
+                            <h3>Created By:</h3>
+                            <p><strong>AL Software</strong></p>
+                            <p><a href="https://alsoftware.vercel.app/" target="_blank" class="about-link">Visit Website</a></p>
+                        </div>
+                        <div class="about-copyright">
+                            <p>&copy; 2025 AL Software. All rights reserved.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
