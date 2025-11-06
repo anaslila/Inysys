@@ -1,16 +1,16 @@
 // ========================================
-// INVSYS MANAGER - JAVASCRIPT v1.02 (COMPLETE)
+// INVSYS MANAGER - JAVASCRIPT v1.03 (COMPLETE)
 // Created by: AL Software
-// Version: 1.02
+// Version: 1.03
 // Loading Icon: https://s3.ezgif.com/tmp/ezgif-39005c99a5e741.gif
 // ========================================
 
 // ========================================
 // GLOBAL VARIABLES & STATE
 // ========================================
-const APP_VERSION = '1.02';
+const APP_VERSION = '1.03';
 const APP_NAME = 'Invsys Manager';
-const LOADING_ICON_URL = 'https://s3.ezgif.com/tmp/ezgif-39005c99a5e741.gif';
+const LOADING_ICON_URL = 'https://i.postimg.cc/XYpPy4qm/ezgif-49b35556d9c1e0.gif';
 
 let appState = {
     currentWindow: 'dashboard',
@@ -21,7 +21,6 @@ let appState = {
     settings: {
         itemsPerPage: 100,
         currencySymbol: '₹',
-        defaultTaxRate: 18,
         dateFormat: 'dd/mm/yyyy',
         invoicePrefix: 'INV',
         startingInvoiceNo: 1001,
@@ -45,7 +44,8 @@ let appState = {
         type: null
     },
     editingItem: null,
-    refillProduct: null
+    refillProduct: null,
+    selectedProduct: null
 };
 
 let calcState = {
@@ -172,6 +172,13 @@ function initializeKeyboardShortcuts() {
                     hideStartMenu();
                 }
             });
+        }
+        
+        // FIXED: Backspace navigation in quantity field
+        if (e.key === 'Backspace' && e.target.id === 'itemQuantity' && e.target.value === '') {
+            e.preventDefault();
+            document.getElementById('productSearch').focus();
+            return;
         }
         
         if (e.key === 'Backspace' && e.target.tagName === 'INPUT' && e.target.type === 'text' && e.target.value === '') {
@@ -466,7 +473,8 @@ function selectDropdownItem(item, type) {
 }
 
 function checkStockAndAdd(product) {
-    const quantity = parseInt(document.getElementById('itemQuantity').value) || 1;
+    const qtyInput = document.getElementById('itemQuantity');
+    const quantity = parseInt(qtyInput.value) || 1;
     
     if (!appState.settings.ignoreStock && product.stock < quantity) {
         if (product.stock === 0) {
@@ -484,15 +492,23 @@ function checkStockAndAdd(product) {
     document.getElementById('productSearch').value = product.name;
     document.getElementById('productResults').style.display = 'none';
     appState.selectedProduct = product;
-    document.getElementById('itemQuantity').focus();
+    qtyInput.focus();
     
-    document.getElementById('itemQuantity').addEventListener('keydown', function quantityHandler(e) {
+    // FIXED: Better Enter/Tab handling from quantity field
+    const handleQtySubmit = (e) => {
         if (e.key === 'Enter' || e.key === 'Tab') {
             e.preventDefault();
-            addInvoiceItem();
-            document.getElementById('itemQuantity').removeEventListener('keydown', quantityHandler);
+            const qty = parseInt(qtyInput.value);
+            if (qty && qty > 0) {
+                addInvoiceItem();
+                qtyInput.removeEventListener('keydown', handleQtySubmit);
+            } else {
+                alert('Please enter a valid quantity');
+            }
         }
-    }, { once: true });
+    };
+    
+    qtyInput.addEventListener('keydown', handleQtySubmit);
 }
 
 function hideAllDropdowns() {
@@ -565,6 +581,11 @@ function saveNewCustomer() {
     appState.customers.push(newCustomer);
     saveToStorage('customers', appState.customers);
     
+    // FIXED: Auto-refresh customer table after adding
+    if (document.getElementById('window-customer').classList.contains('active')) {
+        renderCustomerTable();
+    }
+    
     selectDropdownItem(newCustomer, 'customer');
     closeAddCustomerModal();
 }
@@ -616,6 +637,11 @@ function saveNewProduct() {
     
     appState.inventory.push(newProduct);
     saveToStorage('inventory', appState.inventory);
+    
+    // FIXED: Auto-refresh inventory table after adding
+    if (document.getElementById('window-inventory').classList.contains('active')) {
+        renderInventoryTable();
+    }
     
     checkStockAndAdd(newProduct);
     closeAddProductModal();
@@ -740,8 +766,9 @@ function deleteEditedItem() {
     }
 }
 
+// Continue with Part 2 in next message...
 // ========================================
-// INVOICE MANAGEMENT
+// INVOICE MANAGEMENT (CONTINUED)
 // ========================================
 function initializeInvoiceListeners() {
     const newInvoiceBtn = document.getElementById('newInvoiceBtn');
@@ -784,6 +811,7 @@ function initializeNewInvoice() {
     
     document.getElementById('customerSearch').value = '';
     document.getElementById('productSearch').value = '';
+    document.getElementById('itemQuantity').value = ''; // FIXED: Empty default
     document.getElementById('selectedCustomerInfo').innerHTML = '';
     clearInvoiceItems();
     updateInvoiceTotals();
@@ -806,9 +834,11 @@ function displayCustomerInfo(customer) {
     `;
 }
 
+// FIXED: Auto-club duplicate products
 function addInvoiceItem() {
     const product = appState.selectedProduct;
-    const quantity = parseInt(document.getElementById('itemQuantity').value) || 1;
+    const qtyInput = document.getElementById('itemQuantity');
+    const quantity = parseInt(qtyInput.value) || 1;
     
     if (!product) {
         alert('Please select a product');
@@ -822,29 +852,55 @@ function addInvoiceItem() {
         return;
     }
     
-    const itemSubtotal = quantity * product.price;
-    const itemTax = itemSubtotal * (product.tax / 100);
-    const itemTotal = itemSubtotal + itemTax;
+    // FIXED: Check if product already exists in invoice
+    const existingItemIndex = appState.currentInvoice.items.findIndex(item => item.id === product.id);
     
-    const item = {
-        id: product.id,
-        name: product.name,
-        code: product.code,
-        quantity: quantity,
-        price: product.price,
-        tax: product.tax,
-        subtotal: itemSubtotal,
-        taxAmount: itemTax,
-        total: itemTotal
-    };
+    if (existingItemIndex !== -1) {
+        // Product exists, add to quantity
+        const existingItem = appState.currentInvoice.items[existingItemIndex];
+        const newQuantity = existingItem.quantity + quantity;
+        
+        // Check stock for combined quantity
+        if (!appState.settings.ignoreStock && newQuantity > product.stock) {
+            if (confirm(`Insufficient stock for total quantity ${newQuantity}. Available: ${product.stock}. Would you like to refill stock?`)) {
+                showRefillStockModal(product);
+            }
+            return;
+        }
+        
+        existingItem.quantity = newQuantity;
+        const itemSubtotal = newQuantity * existingItem.price;
+        existingItem.subtotal = itemSubtotal;
+        existingItem.taxAmount = itemSubtotal * (existingItem.tax / 100);
+        existingItem.total = itemSubtotal + existingItem.taxAmount;
+    } else {
+        // New product, add to invoice
+        const itemSubtotal = quantity * product.price;
+        const itemTax = itemSubtotal * (product.tax / 100);
+        const itemTotal = itemSubtotal + itemTax;
+        
+        const item = {
+            id: product.id,
+            name: product.name,
+            code: product.code,
+            quantity: quantity,
+            price: product.price,
+            tax: product.tax,
+            subtotal: itemSubtotal,
+            taxAmount: itemTax,
+            total: itemTotal
+        };
+        
+        appState.currentInvoice.items.push(item);
+    }
     
-    appState.currentInvoice.items.push(item);
     renderInvoiceItems();
     updateInvoiceTotals();
     generateInvoicePreview();
     
+    // FIXED: Clear and return to product search
     document.getElementById('productSearch').value = '';
-    document.getElementById('itemQuantity').value = '1';
+    qtyInput.value = '';
     appState.selectedProduct = null;
     document.getElementById('productSearch').focus();
 }
@@ -1037,9 +1093,8 @@ function generateInvoicePreview() {
     preview.innerHTML = html;
 }
 
-// Due to length limits, I'll continue in next message with remaining functions (Inventory, Customer, Sales, Bills, Calculator, Settings, Profile, Utilities)
 // ========================================
-// INVENTORY MANAGEMENT (CONTINUED)
+// INVENTORY MANAGEMENT
 // ========================================
 function initializeInventoryListeners() {
     const addProductBtn = document.getElementById('addProductBtn');
@@ -1245,6 +1300,16 @@ function initializeCustomerListeners() {
     
     const custNextPage = document.getElementById('custNextPage');
     if (custNextPage) custNextPage.addEventListener('click', () => changeCustomerPage(1));
+    
+    // FIXED: Select All checkbox functionality
+    const selectAllCustomers = document.getElementById('selectAllCustomers');
+    if (selectAllCustomers) {
+        selectAllCustomers.addEventListener('change', (e) => {
+            document.querySelectorAll('#customerTable input[type="checkbox"]').forEach(cb => {
+                cb.checked = e.target.checked;
+            });
+        });
+    }
 }
 
 function renderCustomerTable() {
@@ -1493,15 +1558,16 @@ function exportSales() {
     downloadCSV(csv, 'sales-report.csv');
 }
 
+// Continue in next message for Bills, Calculator, Settings, Profile, and Utilities...
 // ========================================
-// BILLS HISTORY
+// BILLS HISTORY (FIXED)
 // ========================================
 function initializeBillsListeners() {
     const viewBillBtn = document.getElementById('viewBillBtn');
-    if (viewBillBtn) viewBillBtn.addEventListener('click', viewBill);
+    if (viewBillBtn) viewBillBtn.addEventListener('click', viewSelectedBill);
     
     const printBillBtn = document.getElementById('printBillBtn');
-    if (printBillBtn) printBillBtn.addEventListener('click', printBill);
+    if (printBillBtn) printBillBtn.addEventListener('click', printSelectedBills);
     
     const deleteBillBtn = document.getElementById('deleteBillBtn');
     if (deleteBillBtn) deleteBillBtn.addEventListener('click', deleteBills);
@@ -1517,6 +1583,16 @@ function initializeBillsListeners() {
     
     const billsNextPage = document.getElementById('billsNextPage');
     if (billsNextPage) billsNextPage.addEventListener('click', () => changeBillsPage(1));
+    
+    // FIXED: Select All checkbox functionality
+    const selectAllBills = document.getElementById('selectAllBills');
+    if (selectAllBills) {
+        selectAllBills.addEventListener('change', (e) => {
+            document.querySelectorAll('#billsTable input[type="checkbox"]').forEach(cb => {
+                cb.checked = e.target.checked;
+            });
+        });
+    }
 }
 
 function renderBillsTable() {
@@ -1593,21 +1669,54 @@ function searchBills(e) {
     });
 }
 
-function viewBill() {
-    alert('Select a bill and click View button');
+// FIXED: View selected bill functionality
+function viewSelectedBill() {
+    const checkboxes = document.querySelectorAll('#billsTable input[type="checkbox"]:checked');
+    if (checkboxes.length === 0) {
+        alert('Please select a bill to view');
+        return;
+    }
+    
+    const invoiceNo = checkboxes[0].dataset.invoice;
+    viewBillDetails(invoiceNo);
 }
 
 function viewBillDetails(invoiceNo) {
     const invoice = appState.invoices.find(inv => inv.invoiceNo === invoiceNo);
     if (invoice) {
-        appState.currentInvoice = invoice;
+        appState.currentInvoice = { ...invoice };
         openWindow('invoice');
+        
+        // Populate invoice form with saved data
+        document.getElementById('invoiceNo').value = invoice.invoiceNo;
+        document.getElementById('invoiceDate').value = invoice.date;
+        document.getElementById('invoiceDueDate').value = invoice.dueDate;
+        
+        if (invoice.customer) {
+            document.getElementById('customerSearch').value = invoice.customer.name;
+            displayCustomerInfo(invoice.customer);
+        }
+        
+        document.getElementById('invoiceNotes').value = invoice.notes || '';
+        
+        renderInvoiceItems();
+        updateInvoiceTotals();
         generateInvoicePreview();
     }
 }
 
-function printBill() {
-    alert('Select bills to print');
+function printSelectedBills() {
+    const checkboxes = document.querySelectorAll('#billsTable input[type="checkbox"]:checked');
+    if (checkboxes.length === 0) {
+        alert('Please select bills to print');
+        return;
+    }
+    
+    checkboxes.forEach(cb => {
+        const invoiceNo = cb.dataset.invoice;
+        viewBillDetails(invoiceNo);
+        setTimeout(() => window.print(), 500);
+    });
 }
 
 function deleteBills() {
@@ -1810,7 +1919,7 @@ function renderCalculatorHistory() {
 }
 
 // ========================================
-// SETTINGS
+// SETTINGS (FIXED: Removed default tax rate)
 // ========================================
 function initializeSettingsListeners() {
     const saveSettingsBtn = document.getElementById('saveSettingsBtn');
@@ -1839,7 +1948,6 @@ function initializeSettingsListeners() {
 function loadSettingsForm() {
     document.getElementById('itemsPerPage').value = appState.settings.itemsPerPage;
     document.getElementById('currencySymbol').value = appState.settings.currencySymbol;
-    document.getElementById('defaultTaxRate').value = appState.settings.defaultTaxRate;
     document.getElementById('invoicePrefix').value = appState.settings.invoicePrefix;
     document.getElementById('startingInvoiceNo').value = appState.settings.startingInvoiceNo;
     document.getElementById('paymentTerms').value = appState.settings.paymentTerms;
@@ -1849,7 +1957,6 @@ function loadSettingsForm() {
 function saveSettings() {
     appState.settings.itemsPerPage = parseInt(document.getElementById('itemsPerPage').value);
     appState.settings.currencySymbol = document.getElementById('currencySymbol').value;
-    appState.settings.defaultTaxRate = parseFloat(document.getElementById('defaultTaxRate').value);
     appState.settings.invoicePrefix = document.getElementById('invoicePrefix').value;
     appState.settings.startingInvoiceNo = parseInt(document.getElementById('startingInvoiceNo').value);
     appState.settings.paymentTerms = parseInt(document.getElementById('paymentTerms').value);
@@ -1864,7 +1971,6 @@ function resetSettings() {
         appState.settings = {
             itemsPerPage: 100,
             currencySymbol: '₹',
-            defaultTaxRate: 18,
             dateFormat: 'dd/mm/yyyy',
             invoicePrefix: 'INV',
             startingInvoiceNo: 1001,
@@ -2099,7 +2205,7 @@ function generateMiniCalendar(container, date) {
 }
 
 // ========================================
-// WINDOW MANAGEMENT (Continued from first part)
+// WINDOW MANAGEMENT
 // ========================================
 function initializeWindows() {
     document.querySelectorAll('.window').forEach(window => {
@@ -2445,4 +2551,4 @@ function showInstallPrompt(platform) {
     }
 }
 
-console.log('Invsys Manager v1.02 - Script loaded successfully!');
+console.log('Invsys Manager v1.03 - Script loaded successfully!');

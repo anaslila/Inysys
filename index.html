@@ -5,18 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#008080">
     <meta name="description" content="Invsys Manager - Complete inventory, customer, sales, and invoice management system">
-    <title>Invsys Manager v1.02 - AL Software</title>
+    <title>Invsys Manager v1.03 - AL Software</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/png" href="https://i.postimg.cc/q7NhcdLs/Inysys-removebg-preview.png">
     <link rel="apple-touch-icon" href="https://i.postimg.cc/4drzH3RD/Inysys.png">
     <link rel="manifest" href="manifest.json">
+    
+    <!-- Material Symbols Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body>
     <!-- Loading Screen -->
     <div id="loadingScreen" class="loading-screen">
         <div class="loading-container">
-            <img src="https://s3.ezgif.com/tmp/ezgif-39005c99a5e741.gif" alt="Loading" class="loading-icon">
-            <p class="loading-text">Loading Invsys Manager v1.02...</p>
+            <img src="https://i.postimg.cc/XYpPy4qm/ezgif-49b35556d9c1e0.gif" alt="Loading" class="loading-icon">
+            <p class="loading-text">Loading Invsys Manager v1.03...</p>
         </div>
     </div>
 
@@ -43,7 +46,7 @@
         <div class="taskbar">
             <div class="taskbar-start">
                 <button class="start-button" title="Press Ctrl to open Start Menu (Dashboard only)">
-                    <span class="start-icon">▣</span>
+                    <span class="material-symbols-outlined" style="font-size: 18px;">browse</span>
                     <span>Start</span>
                 </button>
             </div>
@@ -71,48 +74,48 @@
                 <img src="https://i.postimg.cc/q7NhcdLs/Inysys-removebg-preview.png" alt="Logo" class="start-logo">
                 <div class="start-info">
                     <div class="start-title">Invsys Manager</div>
-                    <div class="start-version">Version 1.02</div>
+                    <div class="start-version">Version 1.03</div>
                 </div>
             </div>
             <div class="start-menu-items">
                 <div class="menu-item" data-tab="dashboard" data-key="d" tabindex="0">
-                    <span class="menu-icon">⌂</span>
+                    <span class="material-symbols-outlined menu-icon">home</span>
                     <span><span class="menu-underline">D</span>ashboard</span>
                 </div>
                 <div class="menu-item" data-tab="invoice" data-key="i" tabindex="0">
-                    <span class="menu-icon">▤</span>
+                    <span class="material-symbols-outlined menu-icon">receipt</span>
                     <span><span class="menu-underline">I</span>nvoice</span>
                 </div>
                 <div class="menu-item" data-tab="inventory" data-key="n" tabindex="0">
-                    <span class="menu-icon">▦</span>
+                    <span class="material-symbols-outlined menu-icon">inventory_2</span>
                     <span>I<span class="menu-underline">n</span>ventory</span>
                 </div>
                 <div class="menu-item" data-tab="customer" data-key="c" tabindex="0">
-                    <span class="menu-icon">☺</span>
+                    <span class="material-symbols-outlined menu-icon">contacts_product</span>
                     <span><span class="menu-underline">C</span>ustomer</span>
                 </div>
                 <div class="menu-item" data-tab="sales" data-key="e" tabindex="0">
-                    <span class="menu-icon">▬</span>
+                    <span class="material-symbols-outlined menu-icon">finance</span>
                     <span>Sal<span class="menu-underline">e</span>s</span>
                 </div>
                 <div class="menu-item" data-tab="bills" data-key="b" tabindex="0">
-                    <span class="menu-icon">▧</span>
+                    <span class="material-symbols-outlined menu-icon">receipt_long</span>
                     <span><span class="menu-underline">B</span>ills History</span>
                 </div>
                 <div class="menu-item" data-tab="calculator" data-key="l" tabindex="0">
-                    <span class="menu-icon">⌘</span>
+                    <span class="material-symbols-outlined menu-icon">calculate</span>
                     <span>Ca<span class="menu-underline">l</span>culator</span>
                 </div>
                 <div class="menu-item" data-tab="settings" data-key="s" tabindex="0">
-                    <span class="menu-icon">⚙</span>
+                    <span class="material-symbols-outlined menu-icon">settings</span>
                     <span><span class="menu-underline">S</span>ettings</span>
                 </div>
                 <div class="menu-item" data-tab="profile" data-key="p" tabindex="0">
-                    <span class="menu-icon">♦</span>
+                    <span class="material-symbols-outlined menu-icon">account_circle</span>
                     <span><span class="menu-underline">P</span>rofile</span>
                 </div>
                 <div class="menu-item" data-tab="about" data-key="a" tabindex="0">
-                    <span class="menu-icon">ℹ</span>
+                    <span class="material-symbols-outlined menu-icon">info</span>
                     <span><span class="menu-underline">A</span>bout</span>
                 </div>
             </div>
@@ -131,42 +134,42 @@
                 <div class="window-body">
                     <div class="dashboard-grid">
                         <div class="dashboard-card" data-action="invoice" tabindex="0">
-                            <div class="card-icon">▤</div>
+                            <div class="material-symbols-outlined card-icon" style="color: #000080;">receipt</div>
                             <div class="card-title">Create Invoice</div>
                             <div class="card-desc">Generate new invoices</div>
                         </div>
                         <div class="dashboard-card" data-action="inventory" tabindex="0">
-                            <div class="card-icon">▦</div>
+                            <div class="material-symbols-outlined card-icon" style="color: #006400;">inventory_2</div>
                             <div class="card-title">Inventory</div>
                             <div class="card-desc">Manage products</div>
                         </div>
                         <div class="dashboard-card" data-action="customer" tabindex="0">
-                            <div class="card-icon">☺</div>
+                            <div class="material-symbols-outlined card-icon" style="color: #8B4513;">contacts_product</div>
                             <div class="card-title">Customers</div>
                             <div class="card-desc">Customer database</div>
                         </div>
                         <div class="dashboard-card" data-action="sales" tabindex="0">
-                            <div class="card-icon">▬</div>
+                            <div class="material-symbols-outlined card-icon" style="color: #008080;">finance</div>
                             <div class="card-title">Sales Report</div>
                             <div class="card-desc">View sales analytics</div>
                         </div>
                         <div class="dashboard-card" data-action="bills" tabindex="0">
-                            <div class="card-icon">▧</div>
+                            <div class="material-symbols-outlined card-icon" style="color: #800080;">receipt_long</div>
                             <div class="card-title">Bills History</div>
                             <div class="card-desc">Past invoices</div>
                         </div>
                         <div class="dashboard-card" data-action="calculator" tabindex="0">
-                            <div class="card-icon">⌘</div>
+                            <div class="material-symbols-outlined card-icon" style="color: #FF6347;">calculate</div>
                             <div class="card-title">Calculator</div>
                             <div class="card-desc">Quick calculations</div>
                         </div>
                         <div class="dashboard-card" data-action="settings" tabindex="0">
-                            <div class="card-icon">⚙</div>
+                            <div class="material-symbols-outlined card-icon" style="color: #696969;">settings</div>
                             <div class="card-title">Settings</div>
                             <div class="card-desc">App configuration</div>
                         </div>
                         <div class="dashboard-card" data-action="profile" tabindex="0">
-                            <div class="card-icon">♦</div>
+                            <div class="material-symbols-outlined card-icon" style="color: #4169E1;">account_circle</div>
                             <div class="card-title">Profile</div>
                             <div class="card-desc">Company details</div>
                         </div>
@@ -178,7 +181,7 @@
             <div class="window" id="window-invoice" data-window="invoice" style="display: none;">
                 <div class="window-header">
                     <span class="window-title">
-                        <span class="window-icon">▤</span>
+                        <span class="material-symbols-outlined window-icon">receipt</span>
                         Invoice Generator
                     </span>
                     <div class="window-controls">
@@ -240,7 +243,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Quantity:</label>
-                                        <input type="number" id="itemQuantity" class="form-input" min="1" value="1" tabindex="0">
+                                        <input type="number" id="itemQuantity" class="form-input" min="1" placeholder="Enter quantity" tabindex="0">
                                     </div>
                                 </div>
                                 <div class="table-container">
@@ -418,7 +421,7 @@
             <div class="window" id="window-inventory" data-window="inventory" style="display: none;">
                 <div class="window-header">
                     <span class="window-title">
-                        <span class="window-icon">▦</span>
+                        <span class="material-symbols-outlined window-icon">inventory_2</span>
                         Inventory Management
                     </span>
                     <div class="window-controls">
@@ -464,7 +467,7 @@
             <div class="window" id="window-customer" data-window="customer" style="display: none;">
                 <div class="window-header">
                     <span class="window-title">
-                        <span class="window-icon">☺</span>
+                        <span class="material-symbols-outlined window-icon">contacts_product</span>
                         Customer Management
                     </span>
                     <div class="window-controls">
@@ -476,7 +479,7 @@
                 <div class="window-body">
                     <div class="toolbar">
                         <button class="toolbar-btn" id="addCustomerBtn" tabindex="0">Add Customer</button>
-                        <button class="toolbar-btn" id="deleteCustomerBtn" tabindex="0">Delete</button>
+                        <button class="toolbar-btn" id="deleteCustomerBtn" tabindex="0">Delete Selected</button>
                         <button class="toolbar-btn" id="exportCustomerBtn" tabindex="0">Export</button>
                         <button class="toolbar-btn" id="importCustomerBtn" tabindex="0">Import</button>
                         <input type="file" id="importCustomerFile" accept=".csv,.json" style="display: none;">
@@ -510,7 +513,7 @@
             <div class="window" id="window-sales" data-window="sales" style="display: none;">
                 <div class="window-header">
                     <span class="window-title">
-                        <span class="window-icon">▬</span>
+                        <span class="material-symbols-outlined window-icon">finance</span>
                         Sales Report
                     </span>
                     <div class="window-controls">
@@ -574,7 +577,7 @@
             <div class="window" id="window-bills" data-window="bills" style="display: none;">
                 <div class="window-header">
                     <span class="window-title">
-                        <span class="window-icon">▧</span>
+                        <span class="material-symbols-outlined window-icon">receipt_long</span>
                         Bills History
                     </span>
                     <div class="window-controls">
@@ -585,9 +588,9 @@
                 </div>
                 <div class="window-body">
                     <div class="toolbar">
-                        <button class="toolbar-btn" id="viewBillBtn" tabindex="0">View</button>
-                        <button class="toolbar-btn" id="printBillBtn" tabindex="0">Print</button>
-                        <button class="toolbar-btn" id="deleteBillBtn" tabindex="0">Delete</button>
+                        <button class="toolbar-btn" id="viewBillBtn" tabindex="0">View Selected</button>
+                        <button class="toolbar-btn" id="printBillBtn" tabindex="0">Print Selected</button>
+                        <button class="toolbar-btn" id="deleteBillBtn" tabindex="0">Delete Selected</button>
                         <button class="toolbar-btn" id="exportBillsBtn" tabindex="0">Export</button>
                         <input type="text" id="billsSearch" class="toolbar-search" placeholder="Search bills..." tabindex="0">
                     </div>
@@ -619,7 +622,7 @@
             <div class="window" id="window-calculator" data-window="calculator" style="display: none;">
                 <div class="window-header">
                     <span class="window-title">
-                        <span class="window-icon">⌘</span>
+                        <span class="material-symbols-outlined window-icon">calculate</span>
                         Calculator
                     </span>
                     <div class="window-controls">
@@ -641,24 +644,24 @@
                                 <button class="calc-btn calc-btn-operator" data-value="%">%</button>
                                 <button class="calc-btn calc-btn-operator" data-value="/">÷</button>
                                 
-                                <button class="calc-btn" data-value="7" data-numpad="7">7</button>
-                                <button class="calc-btn" data-value="8" data-numpad="8">8</button>
-                                <button class="calc-btn" data-value="9" data-numpad="9">9</button>
-                                <button class="calc-btn calc-btn-operator" data-value="*" data-numpad="*">×</button>
+                                <button class="calc-btn" data-value="7">7</button>
+                                <button class="calc-btn" data-value="8">8</button>
+                                <button class="calc-btn" data-value="9">9</button>
+                                <button class="calc-btn calc-btn-operator" data-value="*">×</button>
                                 
-                                <button class="calc-btn" data-value="4" data-numpad="4">4</button>
-                                <button class="calc-btn" data-value="5" data-numpad="5">5</button>
-                                <button class="calc-btn" data-value="6" data-numpad="6">6</button>
-                                <button class="calc-btn calc-btn-operator" data-value="-" data-numpad="-">−</button>
+                                <button class="calc-btn" data-value="4">4</button>
+                                <button class="calc-btn" data-value="5">5</button>
+                                <button class="calc-btn" data-value="6">6</button>
+                                <button class="calc-btn calc-btn-operator" data-value="-">−</button>
                                 
-                                <button class="calc-btn" data-value="1" data-numpad="1">1</button>
-                                <button class="calc-btn" data-value="2" data-numpad="2">2</button>
-                                <button class="calc-btn" data-value="3" data-numpad="3">3</button>
-                                <button class="calc-btn calc-btn-operator" data-value="+" data-numpad="+">+</button>
+                                <button class="calc-btn" data-value="1">1</button>
+                                <button class="calc-btn" data-value="2">2</button>
+                                <button class="calc-btn" data-value="3">3</button>
+                                <button class="calc-btn calc-btn-operator" data-value="+">+</button>
                                 
-                                <button class="calc-btn calc-btn-zero" data-value="0" data-numpad="0">0</button>
-                                <button class="calc-btn" data-value="." data-numpad=".">.</button>
-                                <button class="calc-btn calc-btn-equals" data-value="=" data-numpad="Enter">=</button>
+                                <button class="calc-btn calc-btn-zero" data-value="0">0</button>
+                                <button class="calc-btn" data-value=".">.</button>
+                                <button class="calc-btn calc-btn-equals" data-value="=">=</button>
                             </div>
                         </div>
                         <div class="calculator-history">
@@ -673,7 +676,7 @@
             <div class="window" id="window-settings" data-window="settings" style="display: none;">
                 <div class="window-header">
                     <span class="window-title">
-                        <span class="window-icon">⚙</span>
+                        <span class="material-symbols-outlined window-icon">settings</span>
                         Settings
                     </span>
                     <div class="window-controls">
@@ -694,10 +697,6 @@
                             <div class="form-group">
                                 <label>Currency Symbol:</label>
                                 <input type="text" id="currencySymbol" class="form-input" value="₹" tabindex="0">
-                            </div>
-                            <div class="form-group">
-                                <label>Tax Rate (%):</label>
-                                <input type="number" id="defaultTaxRate" class="form-input" value="18" step="0.01" tabindex="0">
                             </div>
                             <div class="form-group">
                                 <label>
@@ -749,7 +748,7 @@
             <div class="window" id="window-profile" data-window="profile" style="display: none;">
                 <div class="window-header">
                     <span class="window-title">
-                        <span class="window-icon">♦</span>
+                        <span class="material-symbols-outlined window-icon">account_circle</span>
                         Profile & Company Information
                     </span>
                     <div class="window-controls">
@@ -857,7 +856,7 @@
             <div class="window" id="window-about" data-window="about" style="display: none;">
                 <div class="window-header">
                     <span class="window-title">
-                        <span class="window-icon">ℹ</span>
+                        <span class="material-symbols-outlined window-icon">info</span>
                         About Invsys Manager
                     </span>
                     <div class="window-controls">
@@ -872,22 +871,23 @@
                             <img src="https://i.postimg.cc/4drzH3RD/Inysys.png" alt="Invsys Manager Logo">
                         </div>
                         <h2>Invsys Manager</h2>
-                        <p class="about-version">Version 1.02</p>
+                        <p class="about-version">Version 1.03</p>
                         <p class="about-description">
                             Complete inventory, customer, sales, and invoice management system with a classic Windows 95 interface.
                             Fully keyboard accessible with advanced search capabilities and stock management.
                         </p>
                         <div class="about-features">
-                            <h3>New in v1.02:</h3>
+                            <h3>New in v1.03:</h3>
                             <ul>
-                                <li>Editable calculator with cursor support</li>
-                                <li>Stock refill tracking and history</li>
-                                <li>Edit invoice items after adding</li>
-                                <li>Stock warning system with ignore option</li>
-                                <li>Improved date/time display with popup</li>
-                                <li>Better window positioning</li>
-                                <li>Enhanced dropdown with auto-select</li>
-                                <li>Ctrl only works on dashboard</li>
+                                <li>Material Design Icons integrated</li>
+                                <li>Fixed quantity field backspace navigation</li>
+                                <li>Auto-club duplicate products in invoice</li>
+                                <li>Empty default quantity field</li>
+                                <li>Tab/Enter to add and return to product field</li>
+                                <li>Removed default tax rate from settings</li>
+                                <li>Fixed bills history view</li>
+                                <li>Improved table selection functionality</li>
+                                <li>Auto-refresh after adding products/customers</li>
                             </ul>
                         </div>
                         <div class="about-credits">

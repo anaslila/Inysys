@@ -1,7 +1,7 @@
 /* ========================================
    INVSYS MANAGER - WINDOWS 95 STYLE CSS
    Created by: AL Software
-   Version: 1.02
+   Version: 1.03
    ======================================== */
 
 /* ========================================
@@ -67,6 +67,38 @@ html, body {
     color: var(--text-primary);
     user-select: none;
     -webkit-user-select: none;
+}
+
+/* ========================================
+   MATERIAL SYMBOLS ICONS
+   ======================================== */
+.material-symbols-outlined {
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+    vertical-align: middle;
+}
+
+/* Menu icons styling */
+.menu-icon.material-symbols-outlined {
+    font-size: 20px;
+    width: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Window icons styling */
+.window-icon.material-symbols-outlined {
+    font-size: 18px;
+    margin-right: 5px;
+}
+
+/* Card icons styling */
+.card-icon.material-symbols-outlined {
+    font-size: 48px;
 }
 
 /* ========================================
@@ -196,8 +228,8 @@ html, body {
     padding: 2px 8px 0 12px;
 }
 
-.start-icon {
-    font-size: 14px;
+.start-button .material-symbols-outlined {
+    color: var(--win95-blue);
 }
 
 .taskbar-windows {
@@ -407,10 +439,9 @@ html, body {
     color: var(--text-white);
 }
 
-.menu-icon {
-    width: 20px;
-    text-align: center;
-    font-size: 14px;
+.menu-item:hover .material-symbols-outlined,
+.menu-item:focus .material-symbols-outlined {
+    color: var(--text-white);
 }
 
 .menu-underline {
@@ -814,6 +845,11 @@ html, body {
 .form-textarea:focus {
     outline: 1px dotted var(--text-primary);
     outline-offset: -3px;
+}
+
+.form-input::placeholder {
+    color: var(--win95-dark-grey);
+    font-style: italic;
 }
 
 .form-textarea {
