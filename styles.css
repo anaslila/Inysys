@@ -70,35 +70,98 @@ html, body {
 }
 
 /* ========================================
-   MATERIAL SYMBOLS ICONS
+   SVG ICONS STYLING
    ======================================== */
-.material-symbols-outlined {
-    font-variation-settings:
-    'FILL' 0,
-    'wght' 400,
-    'GRAD' 0,
-    'opsz' 24;
+
+/* Start button icon */
+.start-icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 3px;
+    filter: invert(0.2);
+    display: inline-block;
+}
+
+/* Menu item icons */
+.menu-icon-svg {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    margin-right: 8px;
+    vertical-align: middle;
+    transition: all 0.15s ease;
+    color: #000000;
+    opacity: 0.7;
+}
+
+.menu-item:hover .menu-icon-svg,
+.menu-item:focus .menu-icon-svg {
+    filter: invert(1);
+    opacity: 1;
+}
+
+/* Window header icons */
+.window-icon-svg {
+    width: 18px;
+    height: 18px;
+    margin-right: 5px;
+    filter: invert(1);
+    display: inline-block;
     vertical-align: middle;
 }
 
-/* Menu icons styling */
-.menu-icon.material-symbols-outlined {
-    font-size: 20px;
-    width: 24px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Window icons styling */
-.window-icon.material-symbols-outlined {
-    font-size: 18px;
+/* Popup header icon */
+.popup-header-icon {
+    width: 16px;
+    height: 16px;
     margin-right: 5px;
+    filter: invert(1);
+    display: inline-block;
+    vertical-align: middle;
 }
 
-/* Card icons styling */
-.card-icon.material-symbols-outlined {
-    font-size: 48px;
+/* Dashboard card icons */
+.card-icon-svg {
+    width: 48px;
+    height: 48px;
+    filter: invert(0.2);
+    margin-bottom: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Dashboard card icon colors */
+.dashboard-card:nth-child(1) .card-icon-svg {
+    filter: invert(0.1) hue-rotate(220deg);
+}
+
+.dashboard-card:nth-child(2) .card-icon-svg {
+    filter: invert(0.15) hue-rotate(120deg);
+}
+
+.dashboard-card:nth-child(3) .card-icon-svg {
+    filter: invert(0.2) hue-rotate(30deg);
+}
+
+.dashboard-card:nth-child(4) .card-icon-svg {
+    filter: invert(0.1) hue-rotate(180deg);
+}
+
+.dashboard-card:nth-child(5) .card-icon-svg {
+    filter: invert(0.15) hue-rotate(280deg);
+}
+
+.dashboard-card:nth-child(6) .card-icon-svg {
+    filter: invert(0.2) hue-rotate(0deg);
+}
+
+.dashboard-card:nth-child(7) .card-icon-svg {
+    filter: invert(0.25) grayscale(0.5);
+}
+
+.dashboard-card:nth-child(8) .card-icon-svg {
+    filter: invert(0.1) hue-rotate(230deg);
 }
 
 /* ========================================
@@ -228,10 +291,6 @@ html, body {
     padding: 2px 8px 0 12px;
 }
 
-.start-button .material-symbols-outlined {
-    color: var(--win95-blue);
-}
-
 .taskbar-windows {
     flex: 1;
     display: flex;
@@ -316,6 +375,8 @@ html, body {
     padding: 5px 10px;
     font-weight: bold;
     font-size: 11px;
+    display: flex;
+    align-items: center;
 }
 
 .popup-body {
@@ -439,9 +500,9 @@ html, body {
     color: var(--text-white);
 }
 
-.menu-item:hover .material-symbols-outlined,
-.menu-item:focus .material-symbols-outlined {
-    color: var(--text-white);
+.menu-item:hover .menu-icon-svg,
+.menu-item:focus .menu-icon-svg {
+    filter: invert(1);
 }
 
 .menu-underline {
@@ -761,11 +822,6 @@ html, body {
 .dashboard-card:active {
     border-color: var(--button-dark-shadow) var(--button-highlight) var(--button-highlight) var(--button-dark-shadow);
     transform: translateY(0);
-}
-
-.card-icon {
-    font-size: 36px;
-    margin-bottom: 10px;
 }
 
 .card-title {
@@ -1421,6 +1477,16 @@ html, body {
         right: auto;
         left: 50%;
         transform: translateX(-50%);
+    }
+
+    .card-icon-svg {
+        width: 36px;
+        height: 36px;
+    }
+
+    .menu-icon-svg {
+        width: 16px;
+        height: 16px;
     }
 }
 

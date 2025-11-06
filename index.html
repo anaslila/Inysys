@@ -10,9 +10,6 @@
     <link rel="icon" type="image/png" href="https://i.postimg.cc/q7NhcdLs/Inysys-removebg-preview.png">
     <link rel="apple-touch-icon" href="https://i.postimg.cc/4drzH3RD/Inysys.png">
     <link rel="manifest" href="manifest.json">
-    
-    <!-- Material Symbols Icons -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body>
     <!-- Loading Screen -->
@@ -46,7 +43,7 @@
         <div class="taskbar">
             <div class="taskbar-start">
                 <button class="start-button" title="Press Ctrl to open Start Menu (Dashboard only)">
-                    <span class="material-symbols-outlined" style="font-size: 18px;">browse</span>
+                    <img src="https://www.svgrepo.com/show/512467/menu-navigation-grid-1530.svg" alt="Menu" class="start-icon">
                     <span>Start</span>
                 </button>
             </div>
@@ -61,7 +58,10 @@
 
         <!-- Date/Time Popup -->
         <div class="datetime-popup" id="datetimePopup" style="display: none;">
-            <div class="popup-header">Date & Time Details</div>
+            <div class="popup-header">
+                <img src="https://www.svgrepo.com/show/395397/calender.svg" alt="Calendar" class="popup-header-icon">
+                Date & Time Details
+            </div>
             <div class="popup-body">
                 <div class="datetime-full" id="datetimeFull"></div>
                 <div class="calendar-mini" id="calendarMini"></div>
@@ -79,43 +79,43 @@
             </div>
             <div class="start-menu-items">
                 <div class="menu-item" data-tab="dashboard" data-key="d" tabindex="0">
-                    <span class="material-symbols-outlined menu-icon">home</span>
+                    <img src="https://www.svgrepo.com/show/512467/menu-navigation-grid-1530.svg" alt="Dashboard" class="menu-icon-svg">
                     <span><span class="menu-underline">D</span>ashboard</span>
                 </div>
                 <div class="menu-item" data-tab="invoice" data-key="i" tabindex="0">
-                    <span class="material-symbols-outlined menu-icon">receipt</span>
+                    <img src="https://www.svgrepo.com/show/486148/invoice-apply-line.svg" alt="Invoice" class="menu-icon-svg">
                     <span><span class="menu-underline">I</span>nvoice</span>
                 </div>
                 <div class="menu-item" data-tab="inventory" data-key="n" tabindex="0">
-                    <span class="material-symbols-outlined menu-icon">inventory_2</span>
+                    <img src="https://www.svgrepo.com/show/533034/basket-shopping.svg" alt="Inventory" class="menu-icon-svg">
                     <span>I<span class="menu-underline">n</span>ventory</span>
                 </div>
                 <div class="menu-item" data-tab="customer" data-key="c" tabindex="0">
-                    <span class="material-symbols-outlined menu-icon">contacts_product</span>
+                    <img src="https://www.svgrepo.com/show/486131/customer-class-line.svg" alt="Customer" class="menu-icon-svg">
                     <span><span class="menu-underline">C</span>ustomer</span>
                 </div>
                 <div class="menu-item" data-tab="sales" data-key="e" tabindex="0">
-                    <span class="material-symbols-outlined menu-icon">finance</span>
+                    <img src="https://www.svgrepo.com/show/476744/report.svg" alt="Sales" class="menu-icon-svg">
                     <span>Sal<span class="menu-underline">e</span>s</span>
                 </div>
                 <div class="menu-item" data-tab="bills" data-key="b" tabindex="0">
-                    <span class="material-symbols-outlined menu-icon">receipt_long</span>
+                    <img src="https://www.svgrepo.com/show/486696/history-list.svg" alt="Bills" class="menu-icon-svg">
                     <span><span class="menu-underline">B</span>ills History</span>
                 </div>
                 <div class="menu-item" data-tab="calculator" data-key="l" tabindex="0">
-                    <span class="material-symbols-outlined menu-icon">calculate</span>
+                    <img src="https://www.svgrepo.com/show/533417/calculator.svg" alt="Calculator" class="menu-icon-svg">
                     <span>Ca<span class="menu-underline">l</span>culator</span>
                 </div>
                 <div class="menu-item" data-tab="settings" data-key="s" tabindex="0">
-                    <span class="material-symbols-outlined menu-icon">settings</span>
+                    <img src="https://www.svgrepo.com/show/529867/settings.svg" alt="Settings" class="menu-icon-svg">
                     <span><span class="menu-underline">S</span>ettings</span>
                 </div>
                 <div class="menu-item" data-tab="profile" data-key="p" tabindex="0">
-                    <span class="material-symbols-outlined menu-icon">account_circle</span>
+                    <img src="https://www.svgrepo.com/show/512729/profile-round-1342.svg" alt="Profile" class="menu-icon-svg">
                     <span><span class="menu-underline">P</span>rofile</span>
                 </div>
                 <div class="menu-item" data-tab="about" data-key="a" tabindex="0">
-                    <span class="material-symbols-outlined menu-icon">info</span>
+                    <img src="https://www.svgrepo.com/show/512467/menu-navigation-grid-1530.svg" alt="About" class="menu-icon-svg">
                     <span><span class="menu-underline">A</span>bout</span>
                 </div>
             </div>
@@ -134,42 +134,42 @@
                 <div class="window-body">
                     <div class="dashboard-grid">
                         <div class="dashboard-card" data-action="invoice" tabindex="0">
-                            <div class="material-symbols-outlined card-icon" style="color: #000080;">receipt</div>
+                            <img src="https://www.svgrepo.com/show/486148/invoice-apply-line.svg" alt="Invoice" class="card-icon-svg">
                             <div class="card-title">Create Invoice</div>
                             <div class="card-desc">Generate new invoices</div>
                         </div>
                         <div class="dashboard-card" data-action="inventory" tabindex="0">
-                            <div class="material-symbols-outlined card-icon" style="color: #006400;">inventory_2</div>
+                            <img src="https://www.svgrepo.com/show/533034/basket-shopping.svg" alt="Inventory" class="card-icon-svg">
                             <div class="card-title">Inventory</div>
                             <div class="card-desc">Manage products</div>
                         </div>
                         <div class="dashboard-card" data-action="customer" tabindex="0">
-                            <div class="material-symbols-outlined card-icon" style="color: #8B4513;">contacts_product</div>
+                            <img src="https://www.svgrepo.com/show/486131/customer-class-line.svg" alt="Customer" class="card-icon-svg">
                             <div class="card-title">Customers</div>
                             <div class="card-desc">Customer database</div>
                         </div>
                         <div class="dashboard-card" data-action="sales" tabindex="0">
-                            <div class="material-symbols-outlined card-icon" style="color: #008080;">finance</div>
+                            <img src="https://www.svgrepo.com/show/476744/report.svg" alt="Sales" class="card-icon-svg">
                             <div class="card-title">Sales Report</div>
                             <div class="card-desc">View sales analytics</div>
                         </div>
                         <div class="dashboard-card" data-action="bills" tabindex="0">
-                            <div class="material-symbols-outlined card-icon" style="color: #800080;">receipt_long</div>
+                            <img src="https://www.svgrepo.com/show/486696/history-list.svg" alt="Bills" class="card-icon-svg">
                             <div class="card-title">Bills History</div>
                             <div class="card-desc">Past invoices</div>
                         </div>
                         <div class="dashboard-card" data-action="calculator" tabindex="0">
-                            <div class="material-symbols-outlined card-icon" style="color: #FF6347;">calculate</div>
+                            <img src="https://www.svgrepo.com/show/533417/calculator.svg" alt="Calculator" class="card-icon-svg">
                             <div class="card-title">Calculator</div>
                             <div class="card-desc">Quick calculations</div>
                         </div>
                         <div class="dashboard-card" data-action="settings" tabindex="0">
-                            <div class="material-symbols-outlined card-icon" style="color: #696969;">settings</div>
+                            <img src="https://www.svgrepo.com/show/529867/settings.svg" alt="Settings" class="card-icon-svg">
                             <div class="card-title">Settings</div>
                             <div class="card-desc">App configuration</div>
                         </div>
                         <div class="dashboard-card" data-action="profile" tabindex="0">
-                            <div class="material-symbols-outlined card-icon" style="color: #4169E1;">account_circle</div>
+                            <img src="https://www.svgrepo.com/show/512729/profile-round-1342.svg" alt="Profile" class="card-icon-svg">
                             <div class="card-title">Profile</div>
                             <div class="card-desc">Company details</div>
                         </div>
@@ -181,7 +181,7 @@
             <div class="window" id="window-invoice" data-window="invoice" style="display: none;">
                 <div class="window-header">
                     <span class="window-title">
-                        <span class="material-symbols-outlined window-icon">receipt</span>
+                        <img src="https://www.svgrepo.com/show/486148/invoice-apply-line.svg" alt="Invoice" class="window-icon-svg">
                         Invoice Generator
                     </span>
                     <div class="window-controls">
@@ -421,7 +421,7 @@
             <div class="window" id="window-inventory" data-window="inventory" style="display: none;">
                 <div class="window-header">
                     <span class="window-title">
-                        <span class="material-symbols-outlined window-icon">inventory_2</span>
+                        <img src="https://www.svgrepo.com/show/533034/basket-shopping.svg" alt="Inventory" class="window-icon-svg">
                         Inventory Management
                     </span>
                     <div class="window-controls">
@@ -467,7 +467,7 @@
             <div class="window" id="window-customer" data-window="customer" style="display: none;">
                 <div class="window-header">
                     <span class="window-title">
-                        <span class="material-symbols-outlined window-icon">contacts_product</span>
+                        <img src="https://www.svgrepo.com/show/486131/customer-class-line.svg" alt="Customer" class="window-icon-svg">
                         Customer Management
                     </span>
                     <div class="window-controls">
@@ -513,7 +513,7 @@
             <div class="window" id="window-sales" data-window="sales" style="display: none;">
                 <div class="window-header">
                     <span class="window-title">
-                        <span class="material-symbols-outlined window-icon">finance</span>
+                        <img src="https://www.svgrepo.com/show/476744/report.svg" alt="Sales" class="window-icon-svg">
                         Sales Report
                     </span>
                     <div class="window-controls">
@@ -577,7 +577,7 @@
             <div class="window" id="window-bills" data-window="bills" style="display: none;">
                 <div class="window-header">
                     <span class="window-title">
-                        <span class="material-symbols-outlined window-icon">receipt_long</span>
+                        <img src="https://www.svgrepo.com/show/486696/history-list.svg" alt="Bills" class="window-icon-svg">
                         Bills History
                     </span>
                     <div class="window-controls">
@@ -622,7 +622,7 @@
             <div class="window" id="window-calculator" data-window="calculator" style="display: none;">
                 <div class="window-header">
                     <span class="window-title">
-                        <span class="material-symbols-outlined window-icon">calculate</span>
+                        <img src="https://www.svgrepo.com/show/533417/calculator.svg" alt="Calculator" class="window-icon-svg">
                         Calculator
                     </span>
                     <div class="window-controls">
@@ -676,7 +676,7 @@
             <div class="window" id="window-settings" data-window="settings" style="display: none;">
                 <div class="window-header">
                     <span class="window-title">
-                        <span class="material-symbols-outlined window-icon">settings</span>
+                        <img src="https://www.svgrepo.com/show/529867/settings.svg" alt="Settings" class="window-icon-svg">
                         Settings
                     </span>
                     <div class="window-controls">
@@ -748,7 +748,7 @@
             <div class="window" id="window-profile" data-window="profile" style="display: none;">
                 <div class="window-header">
                     <span class="window-title">
-                        <span class="material-symbols-outlined window-icon">account_circle</span>
+                        <img src="https://www.svgrepo.com/show/512729/profile-round-1342.svg" alt="Profile" class="window-icon-svg">
                         Profile & Company Information
                     </span>
                     <div class="window-controls">
@@ -856,7 +856,7 @@
             <div class="window" id="window-about" data-window="about" style="display: none;">
                 <div class="window-header">
                     <span class="window-title">
-                        <span class="material-symbols-outlined window-icon">info</span>
+                        <img src="https://www.svgrepo.com/show/512467/menu-navigation-grid-1530.svg" alt="About" class="window-icon-svg">
                         About Invsys Manager
                     </span>
                     <div class="window-controls">
@@ -879,7 +879,7 @@
                         <div class="about-features">
                             <h3>New in v1.03:</h3>
                             <ul>
-                                <li>Material Design Icons integrated</li>
+                                <li>SVG Icons from svgrepo integrated</li>
                                 <li>Fixed quantity field backspace navigation</li>
                                 <li>Auto-club duplicate products in invoice</li>
                                 <li>Empty default quantity field</li>
@@ -888,6 +888,7 @@
                                 <li>Fixed bills history view</li>
                                 <li>Improved table selection functionality</li>
                                 <li>Auto-refresh after adding products/customers</li>
+                                <li>New loading animation</li>
                             </ul>
                         </div>
                         <div class="about-credits">
